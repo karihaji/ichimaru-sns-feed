@@ -52,15 +52,84 @@ async function fetchAccount(account) {
   }));
 }
 
+async function fetchAccountsWithBrowser(targetAccounts) {
+  const { chromium } = await import("playwright");
+  const browser = await chromium.launch({ headless: true });
+  const context = await browser.newContext({
+    locale: "en-US",
+    viewport: { width: 1280, height: 900 },
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140 Safari/537.36"
+  });
+  const results = [];
+  const errors = [];
+  try {
+    for (const account of targetAccounts) {
+      const page = await context.newPage();
+      try {
+        await page.goto(account.url, { waitUntil: "domcontentloaded", timeout: 30_000 });
+        const decline = page.getByRole("button", { name: /Decline optional cookies/i });
+        if (await decline.count()) await decline.click().catch(() => {});
+        await page.waitForTimeout(8_000);
+        const rawPosts = await page.locator('a[href*="/p/"], a[href*="/reel/"]').evaluateAll((links) => {
+          const seen = new Set();
+          return links.map((link) => {
+            const href = link.href;
+            const image = link.querySelector("img");
+            return { href, thumbnail: image?.currentSrc || image?.src || "", alt: image?.alt || "" };
+          }).filter((item) => {
+            if (!item.href || !item.thumbnail || seen.has(item.href)) return false;
+            seen.add(item.href);
+            return true;
+          }).slice(0, 3);
+        });
+        if (!rawPosts.length) throw new Error("no public post links in rendered page");
+        rawPosts.forEach((post) => {
+          const shortcode = post.href.match(/\/(?:p|reel)\/([A-Za-z0-9_-]+)/)?.[1];
+          if (!shortcode) return;
+          results.push({
+            id: `instagram-${shortcode}`,
+            accountId: accountId(account),
+            accountName: account.displayName,
+            accountHandle: account.handle,
+            accountUrl: account.url,
+            postUrl: post.href.split("?")[0],
+            publishedAt: new Date().toISOString().slice(0, 10),
+            caption: `${account.displayName}の最新Instagram投稿`,
+            thumbnail: post.thumbnail,
+            alt: post.alt || `${account.displayName}のInstagram投稿画像`,
+            type: post.href.includes("/reel/") ? "video" : "image",
+            enabled: true
+          });
+        });
+      } catch (error) {
+        errors.push(`${account.handle}: ${error.message}`);
+      } finally {
+        await page.close();
+      }
+    }
+  } finally {
+    await browser.close();
+  }
+  return { posts: results.filter(validInstagramPost), errors };
+}
+
 try {
   const settled = await Promise.allSettled(accounts.map(fetchAccount));
   const errors = settled.filter((item) => item.status === "rejected").map((item) => item.reason.message);
-  const posts = settled
+  let posts = settled
     .filter((item) => item.status === "fulfilled")
     .flatMap((item) => item.value)
     .filter(validInstagramPost)
     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
     .slice(0, config.instagram.maxItems);
+  if (!posts.length) {
+    console.warn(`Public endpoint unavailable; trying rendered pages. ${errors.join("; ")}`);
+    const browserResult = await fetchAccountsWithBrowser(accounts);
+    posts = browserResult.posts
+      .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
+      .slice(0, config.instagram.maxItems);
+    errors.push(...browserResult.errors);
+  }
   if (!posts.length) throw new Error(`No valid posts. ${errors.join("; ")}`);
   if (errors.length) console.warn(`Partial Instagram update: ${errors.join("; ")}`);
   const nextJson = `${JSON.stringify(posts, null, 2)}\n`;
