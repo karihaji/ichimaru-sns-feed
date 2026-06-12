@@ -1,6 +1,6 @@
 # 市丸グループ公式SNSフィード
 
-SharePointの埋め込みWebパーツから表示する、GitHub Pages向けの軽量な公式SNSフィードです。Instagram、X、YouTubeを単一表示面のタブで切り替えます。認証情報、APIキー、有料サービス、SNSスクレイピングは使用しません。Instagramは公式プロフィール埋め込みを1件ずつ切り替えて表示します。
+SharePointの埋め込みWebパーツから表示する、GitHub Pages向けの軽量な公式SNSフィードです。Instagram、X、YouTubeを単一表示面のタブで切り替えます。Instagramは公開プロフィールの投稿データをGitHub Actionsで定期取得し、成功時だけ静的JSONを更新します。
 
 ## ローカル起動
 
@@ -51,7 +51,7 @@ x: {
 
 ## Instagram投稿の追加
 
-通常表示では、`accounts.json` に登録した6アカウントをプルダウンで切り替え、Instagram公式のプロフィール埋め込みを表示します。複数プロフィールを同時ロードしません。
+`Update Instagram feed` ワークフローが6時間ごとの37分に公開プロフィールを確認します。Instagramの非公開Webエンドポイントに依存するため、Instagram側の変更やレート制限で停止する可能性があります。失敗時は既存データを維持します。
 
 以下の手動投稿データは、公式埋め込みが利用できない場合の予備運用や独自カード表示へ戻す場合に使用できます。
 
