@@ -4,7 +4,7 @@ SharePointの埋め込みWebパーツから表示する、GitHub Pages向けの�
 
 ## ローカル起動
 
-Node.js 20以上を用意し、プロジェクト直下で実行します。外部パッケージのインストールは不要です。
+Node.js 20以上を用意し、プロジェクト直下で実行します。GitHub ActionsではNode.js 24を使用します。外部パッケージのインストールは不要です。
 
 ```bash
 npm start
@@ -78,6 +78,8 @@ GitHub Actionsの `Update YouTube feed` は6時間ごとの17分に実行され�
 GitHubは活動のないリポジトリの定期ワークフローを停止する場合があります。停止時はリポジトリの `Actions` で `Update YouTube feed` を開き、ワークフローを再有効化して `Run workflow` を実行してください。実行ログと `public/data/youtube.json` の最終コミット日時で更新を確認します。
 
 ## GitHub Pagesへの公開
+
+公開URL: <https://karihaji.github.io/ichimaru-sns-feed/>
 
 1. このディレクトリの内容をGitHubリポジトリの `main` ブランチへpushします。
 2. `Settings > Pages > Build and deployment > Source` で `GitHub Actions` を選択します。

@@ -2,10 +2,10 @@
 
 ## GitHub Pages URL
 
-デプロイ後のURLを次の形式で設定します。
+公開URL:
 
 ```text
-https://ACCOUNT.github.io/REPOSITORY/?embed=1
+https://karihaji.github.io/ichimaru-sns-feed/?embed=1
 ```
 
 初期タブを指定する場合は `&tab=x`、`&tab=instagram`、`&tab=youtube` を追加します。
@@ -14,7 +14,7 @@ https://ACCOUNT.github.io/REPOSITORY/?embed=1
 
 ```html
 <iframe
-  src="https://ACCOUNT.github.io/REPOSITORY/?embed=1"
+  src="https://karihaji.github.io/ichimaru-sns-feed/?embed=1"
   width="100%"
   height="620"
   style="border:0;display:block;overflow:hidden;"
