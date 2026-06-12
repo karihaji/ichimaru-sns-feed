@@ -8,7 +8,7 @@ export const config = {
     defaultTab: "instagram"
   },
   x: {
-    listUrl: "https://twitter.com/i/lists/2065375791920406964",
+    listUrl: "https://x.com/CfcFerryYaKu2/lists/2065375791920406964",
     fallbackProfileUrl: "https://x.com/Cosmo_Ichimaru",
     height: 480
   },

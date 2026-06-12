@@ -6,10 +6,11 @@ import { validInstagramPost } from "./utils/validation.js";
 let initialized = false;
 
 function createCard(post) {
+  const isProfile = post.type === "profile";
   const article = createElement("article", { className: "instagram-card" });
   const link = createElement("a", {
     className: "instagram-card__link",
-    attrs: { href: post.postUrl, "aria-label": `${post.accountName}のInstagram投稿を開く`, ...externalLinkAttributes() }
+    attrs: { href: post.postUrl, "aria-label": `${post.accountName}のInstagram${isProfile ? "プロフィール" : "投稿"}を開く`, ...externalLinkAttributes() }
   });
   const imageWrap = createElement("div", { className: "instagram-card__image-wrap" });
   const image = createElement("img", {
@@ -17,12 +18,16 @@ function createCard(post) {
     attrs: { src: post.thumbnail, alt: post.alt, loading: "lazy", decoding: "async", referrerpolicy: "no-referrer" }
   });
   image.addEventListener("error", () => { image.src = "./public/assets/placeholders/social-placeholder.svg"; }, { once: true });
-  imageWrap.append(image, createElement("span", { className: "instagram-card__platform", text: "Instagram" }));
+  imageWrap.append(image, createElement("span", { className: "instagram-card__platform", text: isProfile ? "公式プロフィール" : "Instagram" }));
   const body = createElement("div", { className: "instagram-card__body" });
   const accountLine = createElement("div", { className: "account-line" });
   accountLine.append(createElement("strong", { text: post.accountName }), createElement("span", { text: post.accountHandle }));
   const meta = createElement("div", { className: "card-meta" });
-  meta.append(createElement("time", { text: formatDate(post.publishedAt), attrs: { datetime: post.publishedAt } }), createElement("span", { text: "投稿を見る ↗" }));
+  if (isProfile) {
+    meta.append(createElement("span", { text: "公式アカウント" }), createElement("span", { text: "プロフィールを見る ↗" }));
+  } else {
+    meta.append(createElement("time", { text: formatDate(post.publishedAt), attrs: { datetime: post.publishedAt } }), createElement("span", { text: "投稿を見る ↗" }));
+  }
   body.append(accountLine, createElement("p", { className: "caption", text: post.caption }), meta);
   link.append(imageWrap, body);
   article.append(link);
@@ -40,15 +45,16 @@ export async function initInstagram() {
   try {
     const response = await fetch("./public/data/instagram.json", { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const items = (await response.json())
-      .filter((item) => item.enabled !== false && item.type !== "profile" && validInstagramPost(item))
-      .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
+    const allItems = (await response.json()).filter((item) => item.enabled !== false && validInstagramPost(item));
+    const posts = allItems.filter((item) => item.type !== "profile");
+    const items = (posts.length ? posts : allItems)
+      .sort((a, b) => new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0))
       .slice(0, config.instagram.maxItems);
     status.remove();
     if (!items.length) {
       renderEmptyState(grid, {
-        title: "Instagram投稿を取得できません",
-        message: "自動更新がまだ正常データを取得できていません。公式Instagramからご確認ください。",
+        title: "Instagramを表示できません",
+        message: "現在Instagram投稿を読み込めません。公式Instagramからご確認ください。",
         linkText: "Instagramを開く",
         linkUrl: "https://www.instagram.com/ichimarugroup/"
       });
@@ -56,7 +62,9 @@ export async function initInstagram() {
     }
     grid.replaceChildren(...items.map(createCard));
     actions.hidden = false;
-    swipeStatus.textContent = `${items.length}件の投稿・横にスワイプして表示`;
+    swipeStatus.textContent = posts.length
+      ? `${items.length}件の投稿・横にスワイプして表示`
+      : `${items.length}件の公式プロフィール・横にスワイプして表示`;
   } catch (error) {
     console.error("Instagram data error", error);
     status.remove();

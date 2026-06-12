@@ -41,7 +41,7 @@ npm test
 
 ```js
 x: {
-  listUrl: "https://x.com/i/lists/2065375791920406964",
+  listUrl: "https://x.com/CfcFerryYaKu2/lists/2065375791920406964",
   fallbackProfileUrl: "https://x.com/Cosmo_Ichimaru",
   height: 480
 }
@@ -51,7 +51,7 @@ x: {
 
 ## Instagram投稿の追加
 
-`Update Instagram feed` ワークフローが6時間ごとの37分に公開プロフィールを確認します。Instagramの非公開Webエンドポイントに依存するため、Instagram側の変更やレート制限で停止する可能性があります。失敗時は既存データを維持します。
+`Update Instagram feed` は実験的な手動ワークフローです。Instagramの公開Webエンドポイントはログインなしのアクセスを制限しているため、定期実行は無効化しています。実投稿を安定表示するにはInstagram APIのアクセストークンを用意するか、投稿URLと画像を手動登録します。取得できない場合は6件の公式プロフィールカードを表示します。
 
 以下の手動投稿データは、公式埋め込みが利用できない場合の予備運用や独自カード表示へ戻す場合に使用できます。
 
