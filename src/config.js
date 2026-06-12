@@ -8,11 +8,9 @@ export const config = {
     defaultTab: "instagram"
   },
   x: {
-    listId: "2065375791920406964",
     listUrl: "https://x.com/CfcFerryYaKu2/lists/2065375791920406964",
     fallbackProfileUrl: "https://x.com/Cosmo_Ichimaru",
-    height: 480,
-    maxItems: 12
+    height: 480
   },
   instagram: {
     initialItemsDesktop: 6,

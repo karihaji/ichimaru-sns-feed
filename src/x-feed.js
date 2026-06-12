@@ -1,7 +1,5 @@
 import { config } from "./config.js";
-import { formatDate } from "./utils/date.js";
 import { createElement, externalLinkAttributes } from "./utils/dom.js";
-import { validXPost } from "./utils/validation.js";
 
 let initialized = false;
 const WIDGET_TIMEOUT_MS = 4000;
@@ -10,69 +8,6 @@ function rejectAfter(ms, message) {
   return new Promise((_, reject) => {
     setTimeout(() => reject(new Error(message)), ms);
   });
-}
-
-async function fetchXPosts() {
-  try {
-    const response = await fetch("./public/data/x.json", { cache: "no-store" });
-    if (!response.ok) return [];
-    return (await response.json())
-      .filter(validXPost)
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-      .slice(0, config.x.maxItems);
-  } catch {
-    return [];
-  }
-}
-
-function createPostCard(post) {
-  const article = createElement("article", { className: "x-post" });
-  const link = createElement("a", {
-    className: "x-post__link",
-    attrs: { href: post.url, "aria-label": `${post.authorName}のX投稿を開く`, ...externalLinkAttributes() }
-  });
-  const header = createElement("div", { className: "x-post__header" });
-  if (post.authorAvatar) {
-    const avatar = createElement("img", {
-      className: "x-post__avatar",
-      attrs: { src: post.authorAvatar, alt: "", loading: "lazy", decoding: "async", referrerpolicy: "no-referrer" }
-    });
-    avatar.addEventListener("error", () => avatar.remove(), { once: true });
-    header.append(avatar);
-  }
-  const account = createElement("div", { className: "x-post__account" });
-  account.append(
-    createElement("strong", { text: post.authorName }),
-    createElement("span", { text: post.authorHandle })
-  );
-  header.append(account, createElement("span", { className: "x-post__mark", text: "X" }));
-  link.append(header, createElement("p", { className: "x-post__text", text: post.text }));
-  if (post.mediaUrl) {
-    link.append(createElement("img", {
-      className: "x-post__media",
-      attrs: { src: post.mediaUrl, alt: "投稿の添付メディア", loading: "lazy", decoding: "async", referrerpolicy: "no-referrer" }
-    }));
-  }
-  link.append(createElement("div", { className: "x-post__meta" }));
-  link.lastElementChild.append(
-    createElement("time", { text: formatDate(post.createdAt), attrs: { datetime: post.createdAt } }),
-    createElement("span", { text: "Xで見る ↗" })
-  );
-  article.append(link);
-  return article;
-}
-
-function renderApiPosts(container, posts) {
-  const wrapper = createElement("div", { className: "x-api-feed" });
-  const heading = createElement("div", { className: "x-api-feed__heading" });
-  heading.append(
-    createElement("strong", { text: "公開Xリストの最新投稿" }),
-    createElement("a", { text: "リストを開く ↗", attrs: { href: config.x.listUrl, ...externalLinkAttributes() } })
-  );
-  const grid = createElement("div", { className: "x-post-grid" });
-  grid.append(...posts.map(createPostCard));
-  wrapper.append(heading, grid);
-  container.replaceChildren(wrapper);
 }
 
 async function fetchXAccounts() {
@@ -92,7 +27,7 @@ async function renderFallback(container, timelineUrl, message) {
   container.replaceChildren();
   const fallback = createElement("div", { className: "x-unavailable" });
   fallback.append(
-    createElement("h2", { text: "Xの投稿を表示できません" }),
+    createElement("h2", { text: "Xの公式タイムラインを表示できません" }),
     createElement("p", { text: message })
   );
   const actions = createElement("div", { className: "x-unavailable__actions" });
@@ -139,8 +74,20 @@ function loadWidgetScript() {
   });
 }
 
-async function renderWidget(container) {
+export async function initX() {
+  if (initialized) return;
+  initialized = true;
+  const container = document.querySelector("#x-feed");
   const timelineUrl = config.x.listUrl || config.x.fallbackProfileUrl;
+  const isFallback = !config.x.listUrl;
+
+  container.replaceChildren();
+  if (isFallback) {
+    container.append(createElement("p", {
+      className: "x-fallback-note",
+      text: "公開XリストURLが未設定のため、代表アカウントを表示しています。"
+    }));
+  }
   const anchor = createElement("a", {
     className: "twitter-timeline",
     text: "Xで最新情報を見る",
@@ -153,7 +100,7 @@ async function renderWidget(container) {
       ...externalLinkAttributes()
     }
   });
-  container.replaceChildren(anchor);
+  container.append(anchor);
 
   try {
     const twttr = await Promise.race([
@@ -171,7 +118,7 @@ async function renderWidget(container) {
       await renderFallback(
         container,
         timelineUrl,
-        "X APIの保存データがなく、公式ウィジェットも配信制限で読み込めませんでした。"
+        "X側の配信制限により、埋め込みタイムラインを読み込めませんでした。公開リストまたは各公式アカウントを直接ご確認ください。"
       );
     }
   } catch (error) {
@@ -179,21 +126,7 @@ async function renderWidget(container) {
     await renderFallback(
       container,
       timelineUrl,
-      "X APIの保存データがなく、公式ウィジェットも読み込めませんでした。"
+      "現在、Xの公式ウィジェットを読み込めません。公開リストまたは各公式アカウントを直接ご確認ください。"
     );
   }
-}
-
-export async function initX() {
-  if (initialized) return;
-  initialized = true;
-  const container = document.querySelector("#x-feed");
-  container.replaceChildren(createElement("div", { className: "panel-status", text: "公開Xリストの投稿を読み込んでいます。", attrs: { role: "status" } }));
-
-  const posts = await fetchXPosts();
-  if (posts.length) {
-    renderApiPosts(container, posts);
-    return;
-  }
-  await renderWidget(container);
 }

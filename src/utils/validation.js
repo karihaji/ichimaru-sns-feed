@@ -35,21 +35,6 @@ export function validInstagramPost(post) {
   );
 }
 
-export function validXPost(post) {
-  return Boolean(
-    post &&
-    /^\d+$/.test(post.id) &&
-    typeof post.authorName === "string" &&
-    /^@[A-Za-z0-9_]{1,15}$/.test(post.authorHandle) &&
-    typeof post.text === "string" &&
-    post.text.length > 0 &&
-    !Number.isNaN(new Date(post.createdAt).getTime()) &&
-    isSafePublicUrl(post.url, ["x.com"]) &&
-    (!post.authorAvatar || isSafePublicUrl(post.authorAvatar, ["twimg.com"])) &&
-    (!post.mediaUrl || isSafePublicUrl(post.mediaUrl, ["twimg.com"]))
-  );
-}
-
 export function validYouTubeVideo(video) {
   return Boolean(
     video &&
