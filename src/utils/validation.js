@@ -21,16 +21,17 @@ export function validAccount(account) {
 }
 
 export function validInstagramPost(post) {
+  const isProfile = post?.type === "profile";
   return Boolean(
     post &&
     typeof post.id === "string" &&
     typeof post.accountId === "string" &&
     isSafePublicUrl(post.postUrl, ["instagram.com"]) &&
-    /^\d{4}-\d{2}-\d{2}$/.test(post.publishedAt) &&
+    (isProfile || /^\d{4}-\d{2}-\d{2}$/.test(post.publishedAt)) &&
     typeof post.caption === "string" &&
     typeof post.thumbnail === "string" &&
     typeof post.alt === "string" &&
-    ["image", "carousel", "video"].includes(post.type)
+    ["image", "carousel", "video", "profile"].includes(post.type)
   );
 }
 

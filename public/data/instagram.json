@@ -1,1 +1,80 @@
-[]
+[
+  {
+    "id": "instagram-profile-tsuruhome-meiwa",
+    "accountId": "tsuruhome_meiwa",
+    "accountName": "@tsuruhome_meiwa",
+    "accountHandle": "@tsuruhome_meiwa",
+    "accountUrl": "https://www.instagram.com/tsuruhome_meiwa/",
+    "postUrl": "https://www.instagram.com/tsuruhome_meiwa/",
+    "caption": "公式Instagramアカウントです。最新の写真やお知らせはInstagramでご覧ください。",
+    "thumbnail": "./assets/placeholders/social-placeholder.svg",
+    "alt": "@tsuruhome_meiwa 公式Instagramアカウント",
+    "type": "profile",
+    "enabled": true
+  },
+  {
+    "id": "instagram-profile-princesswakasa",
+    "accountId": "princesswakasa-information",
+    "accountName": "@princesswakasa.information",
+    "accountHandle": "@princesswakasa.information",
+    "accountUrl": "https://www.instagram.com/princesswakasa.information/",
+    "postUrl": "https://www.instagram.com/princesswakasa.information/",
+    "caption": "公式Instagramアカウントです。最新の写真やお知らせはInstagramでご覧ください。",
+    "thumbnail": "./assets/placeholders/social-placeholder.svg",
+    "alt": "@princesswakasa.information 公式Instagramアカウント",
+    "type": "profile",
+    "enabled": true
+  },
+  {
+    "id": "instagram-profile-fukuemon-jyuemon",
+    "accountId": "fukuemon-jyuemon",
+    "accountName": "@fukuemon.jyuemon",
+    "accountHandle": "@fukuemon.jyuemon",
+    "accountUrl": "https://www.instagram.com/fukuemon.jyuemon/",
+    "postUrl": "https://www.instagram.com/fukuemon.jyuemon/",
+    "caption": "公式Instagramアカウントです。最新の写真やお知らせはInstagramでご覧ください。",
+    "thumbnail": "./assets/placeholders/social-placeholder.svg",
+    "alt": "@fukuemon.jyuemon 公式Instagramアカウント",
+    "type": "profile",
+    "enabled": true
+  },
+  {
+    "id": "instagram-profile-taxi-tsurumaru",
+    "accountId": "taxi-tsurumaru",
+    "accountName": "@taxi.tsurumaru",
+    "accountHandle": "@taxi.tsurumaru",
+    "accountUrl": "https://www.instagram.com/taxi.tsurumaru/",
+    "postUrl": "https://www.instagram.com/taxi.tsurumaru/",
+    "caption": "公式Instagramアカウントです。最新の写真やお知らせはInstagramでご覧ください。",
+    "thumbnail": "./assets/placeholders/social-placeholder.svg",
+    "alt": "@taxi.tsurumaru 公式Instagramアカウント",
+    "type": "profile",
+    "enabled": true
+  },
+  {
+    "id": "instagram-profile-cosmoenergysupply",
+    "accountId": "cosmoenergysupply",
+    "accountName": "@cosmoenergysupply",
+    "accountHandle": "@cosmoenergysupply",
+    "accountUrl": "https://www.instagram.com/cosmoenergysupply/",
+    "postUrl": "https://www.instagram.com/cosmoenergysupply/",
+    "caption": "公式Instagramアカウントです。最新の写真やお知らせはInstagramでご覧ください。",
+    "thumbnail": "./assets/placeholders/social-placeholder.svg",
+    "alt": "@cosmoenergysupply 公式Instagramアカウント",
+    "type": "profile",
+    "enabled": true
+  },
+  {
+    "id": "instagram-profile-ichimarugroup",
+    "accountId": "ichimarugroup",
+    "accountName": "市丸グループ",
+    "accountHandle": "@ichimarugroup",
+    "accountUrl": "https://www.instagram.com/ichimarugroup/",
+    "postUrl": "https://www.instagram.com/ichimarugroup/",
+    "caption": "市丸グループの公式Instagramアカウントです。最新の写真やお知らせはInstagramでご覧ください。",
+    "thumbnail": "./assets/placeholders/social-placeholder.svg",
+    "alt": "市丸グループ公式Instagramアカウント",
+    "type": "profile",
+    "enabled": true
+  }
+]

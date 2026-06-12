@@ -21,6 +21,18 @@ test("Instagram post requires the supported shape", () => {
   }), true);
 });
 
+test("Instagram profile card can omit a publication date", () => {
+  assert.equal(validInstagramPost({
+    id: "instagram-profile-example",
+    accountId: "example",
+    postUrl: "https://www.instagram.com/example/",
+    caption: "Official profile",
+    thumbnail: "./assets/placeholders/social-placeholder.svg",
+    alt: "Official Instagram profile",
+    type: "profile"
+  }), true);
+});
+
 test("YouTube video validation accepts public watch data", () => {
   assert.equal(validYouTubeVideo({
     videoId: "AbCdEf12345",

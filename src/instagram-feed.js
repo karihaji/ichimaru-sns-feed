@@ -6,10 +6,11 @@ import { validInstagramPost } from "./utils/validation.js";
 let initialized = false;
 
 function createCard(post) {
+  const isProfile = post.type === "profile";
   const article = createElement("article", { className: "instagram-card" });
   const link = createElement("a", {
     className: "instagram-card__link",
-    attrs: { href: post.postUrl, "aria-label": `${post.accountName}のInstagram投稿を開く`, ...externalLinkAttributes() }
+    attrs: { href: post.postUrl, "aria-label": `${post.accountName}のInstagram${isProfile ? "プロフィール" : "投稿"}を開く`, ...externalLinkAttributes() }
   });
   const imageWrap = createElement("div", { className: "instagram-card__image-wrap" });
   const image = createElement("img", {
@@ -17,7 +18,7 @@ function createCard(post) {
     attrs: { src: post.thumbnail, alt: post.alt, loading: "lazy", decoding: "async" }
   });
   image.addEventListener("error", () => { image.src = "./public/assets/placeholders/social-placeholder.svg"; }, { once: true });
-  imageWrap.append(image, createElement("span", { className: "instagram-card__platform", text: "Instagram" }));
+  imageWrap.append(image, createElement("span", { className: "instagram-card__platform", text: isProfile ? "公式アカウント" : "Instagram" }));
 
   const body = createElement("div", { className: "instagram-card__body" });
   const accountLine = createElement("div", { className: "account-line" });
@@ -26,7 +27,11 @@ function createCard(post) {
     createElement("span", { text: post.accountHandle })
   );
   const meta = createElement("div", { className: "card-meta" });
-  meta.append(createElement("time", { text: formatDate(post.publishedAt), attrs: { datetime: post.publishedAt } }), createElement("span", { text: "外部リンク ↗" }));
+  if (isProfile) {
+    meta.append(createElement("span", { text: "公式プロフィール" }), createElement("span", { text: "Instagramへ ↗" }));
+  } else {
+    meta.append(createElement("time", { text: formatDate(post.publishedAt), attrs: { datetime: post.publishedAt } }), createElement("span", { text: "外部リンク ↗" }));
+  }
   body.append(accountLine, createElement("p", { className: "caption", text: post.caption }), meta);
   link.append(imageWrap, body);
   article.append(link);
@@ -48,7 +53,11 @@ export async function initInstagram() {
     const rawItems = await response.json();
     const items = rawItems
       .filter((item) => item.enabled !== false && validInstagramPost(item))
-      .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
+      .sort((a, b) => {
+        if (a.type === "profile" && b.type !== "profile") return 1;
+        if (a.type !== "profile" && b.type === "profile") return -1;
+        return new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0);
+      })
       .slice(0, config.instagram.maxItems);
     status.remove();
 
