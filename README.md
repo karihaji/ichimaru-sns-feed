@@ -39,6 +39,8 @@ npm test
 
 12アカウントを含む公開XリストをX上で作成し、`src/config.js` の `x.listUrl` にリストURLを設定します。
 
+このプロジェクトでは有料のX API、APIキー、Bearer Token、外部の有料ウィジェットを使用しません。無料のX公式埋め込みだけを利用します。X側が匿名の埋め込み配信を制限した場合、静的なGitHub Pagesから投稿本文を代替取得することはできないため、公開リストと公式アカウントへのリンクを表示します。
+
 ```js
 x: {
   listUrl: "https://x.com/CfcFerryYaKu2/lists/2065375791920406964",
