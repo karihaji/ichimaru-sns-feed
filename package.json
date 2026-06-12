@@ -1,0 +1,16 @@
+{
+  "name": "ichimaru-sns-feed",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "validate": "node scripts/validate-data.mjs",
+    "add:instagram": "node scripts/add-instagram.mjs",
+    "update:youtube": "node scripts/fetch-youtube.mjs",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

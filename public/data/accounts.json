@@ -1,0 +1,21 @@
+[
+  { "id": "x-ZBQMiVHiIf20870", "platform": "x", "handle": "@ZBQMiVHiIf20870", "displayName": "@ZBQMiVHiIf20870", "url": "https://x.com/ZBQMiVHiIf20870", "enabled": true, "order": 1 },
+  { "id": "x-T_MAXnakatane10", "platform": "x", "handle": "@T_MAXnakatane10", "displayName": "@T_MAXnakatane10", "url": "https://x.com/T_MAXnakatane10", "enabled": true, "order": 2 },
+  { "id": "x-TMaxbowl", "platform": "x", "handle": "@TMaxbowl", "displayName": "@TMaxbowl", "url": "https://x.com/TMaxbowl", "enabled": true, "order": 3 },
+  { "id": "x-CfcFerryYaKu2", "platform": "x", "handle": "@CfcFerryYaKu2", "displayName": "@CfcFerryYaKu2", "url": "https://x.com/CfcFerryYaKu2", "enabled": true, "order": 4 },
+  { "id": "x-Cosmo_Ichimaru", "platform": "x", "handle": "@Cosmo_Ichimaru", "displayName": "@Cosmo_Ichimaru", "url": "https://x.com/Cosmo_Ichimaru", "enabled": true, "order": 5 },
+  { "id": "x-TMAX_amami1_10", "platform": "x", "handle": "@TMAX_amami1_10", "displayName": "@TMAX_amami1_10", "url": "https://x.com/TMAX_amami1_10", "enabled": true, "order": 6 },
+  { "id": "x-tmaxkamome10", "platform": "x", "handle": "@tmaxkamome10", "displayName": "@tmaxkamome10", "url": "https://x.com/tmaxkamome10", "enabled": true, "order": 7 },
+  { "id": "x-minatoten10", "platform": "x", "handle": "@minatoten10", "displayName": "@minatoten10", "url": "https://x.com/minatoten10", "enabled": true, "order": 8 },
+  { "id": "x-TMAX_PRIDE10", "platform": "x", "handle": "@TMAX_PRIDE10", "displayName": "@TMAX_PRIDE10", "url": "https://x.com/TMAX_PRIDE10", "enabled": true, "order": 9 },
+  { "id": "x-tmaxyakushima10", "platform": "x", "handle": "@tmaxyakushima10", "displayName": "@tmaxyakushima10", "url": "https://x.com/tmaxyakushima10", "enabled": true, "order": 10 },
+  { "id": "x-tmaxshinei39_10", "platform": "x", "handle": "@tmaxshinei39_10", "displayName": "@tmaxshinei39_10", "url": "https://x.com/tmaxshinei39_10", "enabled": true, "order": 11 },
+  { "id": "x-TMAX10_10", "platform": "x", "handle": "@TMAX10_10", "displayName": "@TMAX10_10", "url": "https://x.com/TMAX10_10", "enabled": true, "order": 12 },
+  { "id": "instagram-tsuruhome_meiwa", "platform": "instagram", "handle": "@tsuruhome_meiwa", "displayName": "@tsuruhome_meiwa", "url": "https://www.instagram.com/tsuruhome_meiwa/", "enabled": true, "order": 101 },
+  { "id": "instagram-princesswakasa-information", "platform": "instagram", "handle": "@princesswakasa.information", "displayName": "@princesswakasa.information", "url": "https://www.instagram.com/princesswakasa.information/", "enabled": true, "order": 102 },
+  { "id": "instagram-fukuemon-jyuemon", "platform": "instagram", "handle": "@fukuemon.jyuemon", "displayName": "@fukuemon.jyuemon", "url": "https://www.instagram.com/fukuemon.jyuemon/", "enabled": true, "order": 103 },
+  { "id": "instagram-taxi-tsurumaru", "platform": "instagram", "handle": "@taxi.tsurumaru", "displayName": "@taxi.tsurumaru", "url": "https://www.instagram.com/taxi.tsurumaru/", "enabled": true, "order": 104 },
+  { "id": "instagram-cosmoenergysupply", "platform": "instagram", "handle": "@cosmoenergysupply", "displayName": "@cosmoenergysupply", "url": "https://www.instagram.com/cosmoenergysupply/", "enabled": true, "order": 105 },
+  { "id": "instagram-ichimarugroup", "platform": "instagram", "handle": "@ichimarugroup", "displayName": "市丸グループ", "url": "https://www.instagram.com/ichimarugroup/", "enabled": true, "order": 106 },
+  { "id": "youtube-ichimaru", "platform": "youtube", "handle": "UCYrQylMl9TnKybPJ_ERVB8A", "displayName": "市丸グループ公式チャンネル", "url": "https://www.youtube.com/channel/UCYrQylMl9TnKybPJ_ERVB8A", "enabled": true, "order": 201 }
+]

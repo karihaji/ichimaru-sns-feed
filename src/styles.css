@@ -1,0 +1,163 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", sans-serif;
+  color: #1f2937;
+  background: #f5f7fb;
+  font-synthesis: none;
+  --navy: #093065;
+  --blue: #018bee;
+  --pale: #e0e5f3;
+  --white: #ffffff;
+  --gray: #6b7280;
+  --border: #d8dee9;
+  --focus: #006fbd;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { min-width: 320px; background: #f5f7fb; }
+body { margin: 0; min-width: 320px; overflow-x: hidden; background: #f5f7fb; }
+button, select { font: inherit; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 3px solid rgba(1, 139, 238, .38); outline-offset: 3px; }
+
+.site-intro {
+  display: flex;
+  justify-content: center;
+  padding: 28px 24px 20px;
+  text-align: center;
+}
+.site-intro h1 { margin: 2px 0 6px; color: var(--navy); font-size: clamp(22px, 4vw, 32px); }
+.site-intro p:last-child { margin: 0; color: var(--gray); }
+.eyebrow { margin: 0; color: var(--blue); font-size: 11px; font-weight: 800; letter-spacing: .13em; }
+
+.social-shell {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto 32px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--white);
+  box-shadow: 0 8px 28px rgba(9, 48, 101, .08);
+}
+.tabs { display: grid; grid-template-columns: repeat(3, 1fr); min-height: 50px; border-bottom: 1px solid var(--border); background: #f8fafc; }
+.tab {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-right: 1px solid var(--border);
+  background: transparent;
+  color: #526070;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 180ms ease, background 180ms ease;
+}
+.tab:last-child { border-right: 0; }
+.tab[aria-selected="true"] { background: var(--white); color: var(--navy); }
+.tab[aria-selected="true"]::after { position: absolute; right: 20%; bottom: 0; left: 20%; height: 3px; border-radius: 3px 3px 0 0; background: var(--blue); content: ""; }
+.platform-mark { display: inline-grid; width: 20px; height: 20px; place-items: center; border-radius: 6px; font-size: 11px; font-weight: 900; }
+.platform-mark--instagram { color: #a13aa6; background: #f8eafb; }
+.platform-mark--x { color: #111827; background: #e5e7eb; }
+.platform-mark--youtube { color: #d71920; background: #feecec; }
+
+.panel { height: 504px; padding: 16px; overflow: auto; scrollbar-gutter: stable; }
+.panel-status { display: grid; min-height: 100%; place-items: center; padding: 28px; color: var(--gray); text-align: center; }
+.empty-state { display: grid; min-height: 100%; place-items: center; text-align: center; }
+.empty-state__inner { max-width: 460px; padding: 30px; border: 1px dashed #bdc7d6; border-radius: 12px; background: #f8fafc; }
+.empty-state h2 { margin: 0 0 8px; color: var(--navy); font-size: 18px; }
+.empty-state p { margin: 0 0 18px; color: var(--gray); line-height: 1.7; }
+
+.instagram-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.instagram-card { min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: var(--white); transition: transform 180ms ease, box-shadow 180ms ease; }
+.instagram-card:hover { transform: translateY(-2px); box-shadow: 0 7px 20px rgba(9, 48, 101, .1); }
+.instagram-card__link { display: block; height: 100%; color: inherit; text-decoration: none; }
+.instagram-card__image-wrap { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--pale); }
+.instagram-card__image { width: 100%; height: 100%; object-fit: cover; }
+.instagram-card__platform { position: absolute; top: 9px; right: 9px; padding: 3px 7px; border-radius: 999px; background: rgba(255, 255, 255, .93); color: #8a2b91; font-size: 11px; font-weight: 800; }
+.instagram-card__body { padding: 11px 12px 12px; }
+.account-line { display: flex; gap: 6px; align-items: baseline; min-width: 0; }
+.account-line strong { overflow: hidden; color: var(--navy); font-size: 14px; text-overflow: ellipsis; white-space: nowrap; }
+.account-line span { overflow: hidden; color: var(--gray); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.caption { display: -webkit-box; min-height: 3.9em; margin: 8px 0; overflow: hidden; font-size: 13px; line-height: 1.45; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.card-meta { display: flex; justify-content: space-between; color: var(--gray); font-size: 12px; }
+.instagram-actions { display: flex; justify-content: center; margin-top: 14px; }
+.swipe-status { display: none; }
+
+.button { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 8px 18px; border-radius: 8px; font-weight: 700; text-decoration: none; cursor: pointer; }
+.button--primary { border: 1px solid var(--navy); background: var(--navy); color: var(--white); }
+.button--secondary { border: 1px solid var(--border); background: var(--white); color: var(--navy); }
+
+.x-frame { height: 100%; overflow: auto; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
+.x-frame .twitter-timeline { width: 100% !important; }
+.x-fallback-note { padding: 10px 14px; border-bottom: 1px solid var(--border); background: #f8fafc; color: var(--gray); font-size: 12px; text-align: center; }
+
+.youtube-layout { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(260px, .85fr); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 14px; height: 100%; }
+.youtube-layout > .empty-state { grid-column: 1 / -1; grid-row: 1 / -1; }
+.youtube-card { min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
+.youtube-card--featured { grid-row: 1 / 3; }
+.youtube-card__link { display: grid; height: 100%; color: inherit; text-decoration: none; }
+.youtube-card--featured .youtube-card__link { grid-template-rows: minmax(0, 1fr) auto; }
+.youtube-card:not(.youtube-card--featured) .youtube-card__link { grid-template-columns: 44% 1fr; }
+.youtube-thumb { position: relative; min-height: 0; overflow: hidden; background: #111827; }
+.youtube-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.play-mark { position: absolute; top: 50%; left: 50%; display: grid; width: 52px; height: 38px; transform: translate(-50%, -50%); place-items: center; border-radius: 9px; background: rgba(215, 25, 32, .94); color: #fff; font-size: 16px; }
+.youtube-card__body { align-self: center; padding: 14px; min-width: 0; }
+.youtube-card__title { display: -webkit-box; margin: 0 0 8px; overflow: hidden; color: var(--navy); font-size: 15px; line-height: 1.5; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.youtube-card--featured .youtube-card__title { font-size: 18px; }
+.youtube-card__date { color: var(--gray); font-size: 12px; }
+
+.shell-footer { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 16px; padding: 7px 16px; border-top: 1px solid var(--border); background: #f8fafc; }
+.updated-at { margin: 0; color: var(--gray); font-size: 12px; }
+.accounts-button { display: flex; gap: 7px; align-items: center; border: 0; background: transparent; color: var(--navy); font-size: 13px; font-weight: 800; cursor: pointer; }
+
+.accounts-dialog { width: min(760px, calc(100% - 32px)); max-height: min(78vh, 700px); padding: 0; overflow: hidden; border: 0; border-radius: 12px; box-shadow: 0 24px 80px rgba(9, 48, 101, .28); }
+.accounts-dialog::backdrop { background: rgba(15, 23, 42, .58); }
+.dialog-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--border); }
+.dialog-header h2 { margin: 2px 0 0; color: var(--navy); font-size: 21px; }
+.icon-button { width: 40px; height: 40px; border: 1px solid var(--border); border-radius: 50%; background: #fff; color: var(--navy); font-size: 24px; cursor: pointer; }
+.accounts-groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; max-height: calc(78vh - 78px); padding: 20px; overflow: auto; }
+.accounts-group h3 { margin: 0 0 10px; color: var(--navy); font-size: 16px; }
+.accounts-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.accounts-list a { display: block; overflow: hidden; padding: 8px 9px; border-radius: 7px; color: #334155; font-size: 13px; text-decoration: none; text-overflow: ellipsis; white-space: nowrap; }
+.accounts-list a:hover { background: var(--pale); color: var(--navy); }
+
+body.is-embed { background: transparent; }
+body.is-embed [data-outer-chrome] { display: none; }
+body.is-embed .social-shell { width: 100%; margin: 0; border-radius: 0; box-shadow: none; }
+
+@media (max-width: 899px) {
+  .site-intro { padding: 20px 16px 14px; }
+  .social-shell { width: min(100% - 16px, 680px); margin-bottom: 16px; }
+  .panel { height: 504px; padding: 12px; overflow: hidden; }
+  .instagram-grid { display: flex; gap: 12px; height: calc(100% - 28px); overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+  .instagram-card { flex: 0 0 min(86%, 350px); height: 100%; scroll-snap-align: start; }
+  .instagram-card__image-wrap { aspect-ratio: 1 / 1; max-height: 330px; }
+  .instagram-actions { height: 28px; align-items: end; justify-content: space-between; margin-top: 0; }
+  .instagram-actions .button { display: none; }
+  .swipe-status { display: block; width: 100%; margin: 0; color: var(--gray); font-size: 12px; text-align: center; }
+  .youtube-layout { grid-template-columns: 1fr; grid-template-rows: 56% repeat(2, 1fr); gap: 10px; }
+  .youtube-card--featured { grid-row: auto; }
+  .youtube-card--featured .youtube-card__link { grid-template-columns: 54% 1fr; grid-template-rows: 1fr; }
+  .youtube-card:not(.youtube-card--featured) .youtube-card__link { grid-template-columns: 38% 1fr; }
+  .youtube-card--featured .youtube-card__title { font-size: 15px; }
+  .youtube-card__body { padding: 10px; }
+  .accounts-groups { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 420px) {
+  .tab { gap: 5px; font-size: 13px; }
+  .platform-mark { width: 18px; height: 18px; }
+  .panel { height: 500px; padding: 10px; }
+  .instagram-card { flex-basis: 88%; }
+  .youtube-card--featured .youtube-card__link { grid-template-columns: 1fr; grid-template-rows: 60% 40%; }
+  .shell-footer { padding-inline: 11px; }
+  .updated-at { max-width: 48%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}

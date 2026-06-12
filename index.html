@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="市丸グループ各社・各事業の公式SNS発信をまとめて紹介します。">
+    <meta name="theme-color" content="#093065">
+    <title>市丸グループ公式SNSフィード</title>
+    <link rel="icon" href="./public/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./src/styles.css">
+  </head>
+  <body>
+    <header class="site-intro" data-outer-chrome>
+      <div>
+        <p class="eyebrow">ICHIMARU GROUP</p>
+        <h1>公式SNSフィード</h1>
+        <p>各社・各事業が公開している最新情報をまとめて紹介します。</p>
+      </div>
+    </header>
+
+    <main class="social-shell" id="main-content">
+      <div class="tabs" role="tablist" aria-label="SNSを選択">
+        <button class="tab" id="tab-instagram" type="button" role="tab" aria-selected="true" aria-controls="panel-instagram" data-tab="instagram">
+          <span class="platform-mark platform-mark--instagram" aria-hidden="true">◎</span>
+          Instagram
+        </button>
+        <button class="tab" id="tab-x" type="button" role="tab" aria-selected="false" aria-controls="panel-x" tabindex="-1" data-tab="x">
+          <span class="platform-mark platform-mark--x" aria-hidden="true">X</span>
+          X
+        </button>
+        <button class="tab" id="tab-youtube" type="button" role="tab" aria-selected="false" aria-controls="panel-youtube" tabindex="-1" data-tab="youtube">
+          <span class="platform-mark platform-mark--youtube" aria-hidden="true">▶</span>
+          YouTube
+        </button>
+      </div>
+
+      <section class="panel" id="panel-instagram" role="tabpanel" aria-labelledby="tab-instagram" data-panel="instagram">
+        <div class="panel-status" id="instagram-status" role="status">Instagramの投稿を読み込んでいます。</div>
+        <div class="instagram-grid" id="instagram-grid" aria-live="polite"></div>
+        <div class="instagram-actions" id="instagram-actions" hidden>
+          <p class="swipe-status" id="instagram-swipe-status" aria-live="polite"></p>
+          <button class="button button--secondary" id="instagram-more" type="button">さらに見る</button>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-x" role="tabpanel" aria-labelledby="tab-x" data-panel="x" hidden>
+        <div class="x-frame" id="x-feed">
+          <div class="panel-status" role="status">Xタブを開くと公式タイムラインを読み込みます。</div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-youtube" role="tabpanel" aria-labelledby="tab-youtube" data-panel="youtube" hidden>
+        <div class="panel-status" id="youtube-status" role="status">YouTubeの動画を読み込んでいます。</div>
+        <div class="youtube-layout" id="youtube-grid"></div>
+      </section>
+
+      <footer class="shell-footer">
+        <p class="updated-at" id="updated-at">公開情報を掲載しています</p>
+        <button class="accounts-button" id="accounts-open" type="button" aria-haspopup="dialog">
+          公式アカウント一覧
+          <span aria-hidden="true">↗</span>
+        </button>
+      </footer>
+    </main>
+
+    <dialog class="accounts-dialog" id="accounts-dialog" aria-labelledby="accounts-title">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">OFFICIAL ACCOUNTS</p>
+          <h2 id="accounts-title">公式アカウント一覧</h2>
+        </div>
+        <button class="icon-button" id="accounts-close" type="button" aria-label="公式アカウント一覧を閉じる">×</button>
+      </div>
+      <div class="accounts-groups" id="accounts-groups"></div>
+    </dialog>
+
+    <noscript>このページの表示にはJavaScriptが必要です。公式アカウント一覧から各SNSをご覧ください。</noscript>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
