@@ -41,7 +41,7 @@ npm test
 
 ```js
 x: {
-  listUrl: "https://x.com/i/lists/LIST_ID",
+  listUrl: "https://x.com/i/lists/2065375791920406964",
   fallbackProfileUrl: "https://x.com/Cosmo_Ichimaru",
   height: 480
 }
