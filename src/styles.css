@@ -101,6 +101,22 @@ a:focus-visible, button:focus-visible { outline: 3px solid rgba(1, 139, 238, .38
 
 .x-frame { height: 100%; overflow: auto; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
 .x-frame .twitter-timeline { width: 100% !important; }
+.x-api-feed { display: grid; grid-template-rows: auto minmax(0, 1fr); height: 100%; overflow: hidden; }
+.x-api-feed__heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 14px; border-bottom: 1px solid var(--border); background: #f8fafc; color: var(--navy); font-size: 13px; }
+.x-api-feed__heading a { color: var(--blue); font-weight: 700; text-decoration: none; }
+.x-post-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: 10px; padding: 10px; overflow: auto; background: #f8fafc; }
+.x-post { min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
+.x-post__link { display: grid; gap: 10px; height: 100%; padding: 13px; color: inherit; text-decoration: none; }
+.x-post__header { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.x-post__avatar { width: 38px; height: 38px; flex: 0 0 auto; border-radius: 50%; object-fit: cover; }
+.x-post__account { display: grid; min-width: 0; line-height: 1.3; }
+.x-post__account strong, .x-post__account span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.x-post__account strong { color: var(--navy); font-size: 13px; }
+.x-post__account span { color: var(--gray); font-size: 12px; }
+.x-post__mark { margin-left: auto; color: #111827; font-size: 16px; font-weight: 900; }
+.x-post__text { display: -webkit-box; margin: 0; overflow: hidden; font-size: 13px; line-height: 1.55; white-space: pre-wrap; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
+.x-post__media { width: 100%; max-height: 180px; border-radius: 8px; object-fit: cover; }
+.x-post__meta { display: flex; align-items: center; justify-content: space-between; margin-top: auto; color: var(--gray); font-size: 11px; }
 .x-fallback-note { padding: 10px 14px; border-bottom: 1px solid var(--border); background: #f8fafc; color: var(--gray); font-size: 12px; text-align: center; }
 .x-unavailable { display: grid; align-content: start; gap: 12px; min-height: 100%; padding: 28px; background: #f8fafc; }
 .x-unavailable h2 { margin: 0; color: var(--navy); font-size: 19px; }
@@ -168,6 +184,7 @@ body.is-embed .social-shell { width: 100%; margin: 0; border-radius: 0; box-shad
   .youtube-card__body { padding: 10px; }
   .accounts-groups { grid-template-columns: 1fr; }
   .x-unavailable { padding: 18px; }
+  .x-post-grid { grid-template-columns: 1fr; }
   .x-account-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 

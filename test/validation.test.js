@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isSafePublicUrl, validInstagramPost, validYouTubeVideo } from "../src/utils/validation.js";
+import { isSafePublicUrl, validInstagramPost, validXPost, validYouTubeVideo } from "../src/utils/validation.js";
 
 test("public URL validation rejects insecure and unexpected hosts", () => {
   assert.equal(isSafePublicUrl("https://www.instagram.com/p/example/", ["instagram.com"]), true);
@@ -30,6 +30,20 @@ test("Instagram profile card can omit a publication date", () => {
     thumbnail: "./assets/placeholders/social-placeholder.svg",
     alt: "Official Instagram profile",
     type: "profile"
+  }), true);
+});
+
+test("X post accepts API-normalized public data", () => {
+  assert.equal(validXPost({
+    id: "2065375791920406964",
+    authorName: "市丸グループ",
+    authorHandle: "@Cosmo_Ichimaru",
+    authorAvatar: "https://pbs.twimg.com/profile_images/example.jpg",
+    text: "公開Xリストの投稿です。",
+    createdAt: "2026-06-12T00:00:00Z",
+    url: "https://x.com/Cosmo_Ichimaru/status/2065375791920406964",
+    mediaUrl: "",
+    mediaType: ""
   }), true);
 });
 

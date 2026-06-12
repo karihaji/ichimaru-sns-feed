@@ -8,6 +8,7 @@
     "validate": "node scripts/validate-data.mjs",
     "add:instagram": "node scripts/add-instagram.mjs",
     "update:instagram": "node scripts/fetch-instagram.mjs",
+    "update:x": "node scripts/fetch-x.mjs",
     "update:youtube": "node scripts/fetch-youtube.mjs",
     "test": "node --test"
   },

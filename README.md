@@ -30,24 +30,35 @@ npm test
 - `src/`: タブと各SNS表示のJavaScript、スタイル
 - `public/data/accounts.json`: 全公式アカウント
 - `public/data/instagram.json`: 手動管理するInstagram投稿
+- `public/data/x.json`: X APIから取得した公開リスト投稿
 - `public/data/youtube.json`: 自動更新するYouTube動画
 - `public/assets/instagram/`: Instagram画像の配置先
 - `scripts/`: データ追加、取得、検証、ローカル配信
-- `.github/workflows/`: Pages公開とYouTube定期更新
+- `.github/workflows/`: Pages公開とX・YouTube定期更新
 
 ## Xの設定
 
-12アカウントを含む公開XリストをX上で作成し、`src/config.js` の `x.listUrl` にリストURLを設定します。
+12アカウントを含む公開Xリストを、公式X APIからGitHub Actionsで取得します。ブラウザからAPIを直接呼ばないため、Bearer Tokenは公開ページへ出ません。
 
 ```js
 x: {
+  listId: "2065375791920406964",
   listUrl: "https://x.com/CfcFerryYaKu2/lists/2065375791920406964",
   fallbackProfileUrl: "https://x.com/Cosmo_Ichimaru",
-  height: 480
+  height: 480,
+  maxItems: 12
 }
 ```
 
-リストURLが空の場合は代表プロフィールを1本だけ表示します。ウィジェットを読み込めない場合はXへの外部リンクを表示します。12プロフィールを同時に読み込む実装ではありません。
+X Developer Consoleでアプリを作成してクレジットを用意し、リポジトリの `Settings > Secrets and variables > Actions` に `X_BEARER_TOKEN` を登録します。CLIを使う場合は値をコマンドラインへ直接書かず、次の対話入力を使用します。
+
+```bash
+gh secret set X_BEARER_TOKEN --repo karihaji/ichimaru-sns-feed
+```
+
+登録後、`Actions > Update X feed > Run workflow` を実行します。成功すると最大12件が `public/data/x.json` に保存され、そのpushでPagesが再公開されます。その後は6時間ごとに更新します。取得失敗時は前回の正常データを保持します。
+
+表示順は、保存済みAPI投稿、公式Xウィジェット、公開リストと公式アカウントへのリンクの順です。X公式ウィジェットの匿名配信が429になっても、API更新済みデータがあれば投稿カードを継続表示します。
 
 ## Instagram投稿の追加
 
@@ -99,7 +110,7 @@ GitHubは活動のないリポジトリの定期ワークフローを停止す�
 
 - ページ全体: `Deploy GitHub Pages` のログとブラウザの開発者コンソール
 - Instagram: JSON構文、`enabled`、画像パス、投稿URL
-- X: `x.listUrl` の公開範囲、Xウィジェットのブロック、ブラウザのトラッキング防止設定
+- X: `Update X feed` のログ、`X_BEARER_TOKEN`、APIクレジット残高、`public/data/x.json` の最終更新日時
 - YouTube: `Update YouTube feed` のログ、チャンネルフィード、JSONの最終更新日時
 - SharePoint: GitHub Pagesドメインの許可、HTTPS、iframe高さ、組織ポリシー
 

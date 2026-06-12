@@ -1,7 +1,7 @@
 import { access, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { validAccount, validInstagramPost, validYouTubeVideo } from "../src/utils/validation.js";
+import { validAccount, validInstagramPost, validXPost, validYouTubeVideo } from "../src/utils/validation.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const dataDirectory = resolve(root, "public/data");
@@ -15,11 +15,13 @@ async function readJson(name) {
 
 const accounts = await readJson("accounts.json");
 const instagram = await readJson("instagram.json");
+const x = await readJson("x.json");
 const youtube = await readJson("youtube.json");
 const errors = [];
 
 accounts.forEach((item, index) => { if (!validAccount(item)) errors.push(`accounts.json[${index}] is invalid`); });
 instagram.forEach((item, index) => { if (!validInstagramPost(item)) errors.push(`instagram.json[${index}] is invalid`); });
+x.forEach((item, index) => { if (!validXPost(item)) errors.push(`x.json[${index}] is invalid`); });
 youtube.forEach((item, index) => { if (!validYouTubeVideo(item)) errors.push(`youtube.json[${index}] is invalid`); });
 
 const accountIds = new Set(accounts.filter((item) => item.platform === "instagram").map((item) => item.id.replace(/^instagram-/, "")));
@@ -33,11 +35,12 @@ for (const [index, post] of instagram.entries()) {
 
 if (new Set(accounts.map((item) => item.id)).size !== accounts.length) errors.push("accounts.json contains duplicate ids");
 if (new Set(instagram.map((item) => item.id)).size !== instagram.length) errors.push("instagram.json contains duplicate ids");
+if (new Set(x.map((item) => item.id)).size !== x.length) errors.push("x.json contains duplicate post ids");
 if (new Set(youtube.map((item) => item.videoId)).size !== youtube.length) errors.push("youtube.json contains duplicate video ids");
 
 if (errors.length) {
   console.error(errors.join("\n"));
   process.exitCode = 1;
 } else {
-  console.log(`Validated ${accounts.length} accounts, ${instagram.length} Instagram posts, and ${youtube.length} YouTube videos.`);
+  console.log(`Validated ${accounts.length} accounts, ${instagram.length} Instagram posts, ${x.length} X posts, and ${youtube.length} YouTube videos.`);
 }
