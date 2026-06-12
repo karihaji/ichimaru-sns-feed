@@ -2,6 +2,13 @@ import { config } from "./config.js";
 import { createElement, externalLinkAttributes } from "./utils/dom.js";
 
 let initialized = false;
+const WIDGET_TIMEOUT_MS = 4000;
+
+function rejectAfter(ms, message) {
+  return new Promise((_, reject) => {
+    setTimeout(() => reject(new Error(message)), ms);
+  });
+}
 
 async function fetchXAccounts() {
   try {
@@ -96,9 +103,15 @@ export async function initX() {
   container.append(anchor);
 
   try {
-    const twttr = await loadWidgetScript();
-    await twttr.widgets.load(container);
-    await new Promise((resolve) => setTimeout(resolve, 3500));
+    const twttr = await Promise.race([
+      loadWidgetScript(),
+      rejectAfter(WIDGET_TIMEOUT_MS, "X widget script timed out")
+    ]);
+    await Promise.race([
+      Promise.resolve(twttr.widgets.load(container)),
+      rejectAfter(WIDGET_TIMEOUT_MS, "X widget rendering timed out")
+    ]);
+    await new Promise((resolve) => setTimeout(resolve, 2500));
     const iframe = container.querySelector("iframe");
     const rendered = iframe && iframe.getBoundingClientRect().height >= 200 && iframe.getBoundingClientRect().width >= 200;
     if (!rendered) {

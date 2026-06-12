@@ -5,6 +5,10 @@ import { validInstagramPost } from "./utils/validation.js";
 
 let initialized = false;
 
+function resolveThumbnail(thumbnail) {
+  return thumbnail.startsWith("./assets/") ? `./public/${thumbnail.slice(2)}` : thumbnail;
+}
+
 function createCard(post) {
   const isProfile = post.type === "profile";
   const article = createElement("article", { className: "instagram-card" });
@@ -15,7 +19,7 @@ function createCard(post) {
   const imageWrap = createElement("div", { className: "instagram-card__image-wrap" });
   const image = createElement("img", {
     className: "instagram-card__image",
-    attrs: { src: post.thumbnail, alt: post.alt, loading: "lazy", decoding: "async", referrerpolicy: "no-referrer" }
+    attrs: { src: resolveThumbnail(post.thumbnail), alt: post.alt, loading: "lazy", decoding: "async", referrerpolicy: "no-referrer" }
   });
   image.addEventListener("error", () => { image.src = "./public/assets/placeholders/social-placeholder.svg"; }, { once: true });
   imageWrap.append(image, createElement("span", { className: "instagram-card__platform", text: isProfile ? "公式プロフィール" : "Instagram" }));
