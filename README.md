@@ -39,17 +39,19 @@ npm test
 
 12アカウントを含む公開XリストをX上で作成し、`src/config.js` の `x.listUrl` にリストURLを設定します。
 
-このプロジェクトでは有料のX API、APIキー、Bearer Token、外部の有料ウィジェットを使用しません。無料のX公式埋め込みだけを利用します。X側が匿名の埋め込み配信を制限した場合、静的なGitHub Pagesから投稿本文を代替取得することはできないため、公開リストと公式アカウントへのリンクを表示します。
+このプロジェクトでは有料のX API、APIキー、Bearer Token、外部の有料ウィジェットを使用しません。X側が匿名のリスト埋め込みを制限しているため、ログイン済みの公開リストHOME画面を確認して撮影した静的カードを表示します。カードをクリックすると実際の公開Xリストを開きます。
 
 ```js
 x: {
   listUrl: "https://x.com/CfcFerryYaKu2/lists/2065375791920406964",
   fallbackProfileUrl: "https://x.com/Cosmo_Ichimaru",
+  snapshotImage: "./public/assets/x/x-list-home-20260612.png",
+  snapshotUpdatedAt: "2026年6月12日",
   height: 480
 }
 ```
 
-リストURLが空の場合は代表プロフィールを1本だけ表示します。ウィジェットを読み込めない場合はXへの外部リンクを表示します。12プロフィールを同時に読み込む実装ではありません。
+画像を更新する場合は、公開リストが12メンバーであることと画像内に非公開情報がないことを確認し、`public/assets/x/` の画像を新しいファイル名で追加して設定を変更します。自動更新ではありません。
 
 ## Instagram投稿の追加
 
@@ -101,7 +103,7 @@ GitHubは活動のないリポジトリの定期ワークフローを停止す�
 
 - ページ全体: `Deploy GitHub Pages` のログとブラウザの開発者コンソール
 - Instagram: JSON構文、`enabled`、画像パス、投稿URL
-- X: `x.listUrl` の公開範囲、Xウィジェットのブロック、ブラウザのトラッキング防止設定
+- X: `snapshotImage` の画像パス、公開リストの12メンバー、撮影日の表記
 - YouTube: `Update YouTube feed` のログ、チャンネルフィード、JSONの最終更新日時
 - SharePoint: GitHub Pagesドメインの許可、HTTPS、iframe高さ、組織ポリシー
 

@@ -10,6 +10,8 @@ export const config = {
   x: {
     listUrl: "https://x.com/CfcFerryYaKu2/lists/2065375791920406964",
     fallbackProfileUrl: "https://x.com/Cosmo_Ichimaru",
+    snapshotImage: "./public/assets/x/x-list-home-20260612.png",
+    snapshotUpdatedAt: "2026年6月12日",
     height: 480
   },
   instagram: {

@@ -1,6 +1,7 @@
 import { access, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { config } from "../src/config.js";
 import { validAccount, validInstagramPost, validYouTubeVideo } from "../src/utils/validation.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
@@ -29,6 +30,11 @@ for (const [index, post] of instagram.entries()) {
     const imagePath = resolve(root, "public", post.thumbnail.replace(/^\.\//, ""));
     try { await access(imagePath); } catch { errors.push(`instagram.json[${index}].thumbnail does not exist: ${post.thumbnail}`); }
   }
+}
+
+if (config.x.snapshotImage?.startsWith("./public/")) {
+  const snapshotPath = resolve(root, config.x.snapshotImage.replace(/^\.\//, ""));
+  try { await access(snapshotPath); } catch { errors.push(`X snapshot image does not exist: ${config.x.snapshotImage}`); }
 }
 
 if (new Set(accounts.map((item) => item.id)).size !== accounts.length) errors.push("accounts.json contains duplicate ids");

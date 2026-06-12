@@ -2,13 +2,6 @@ import { config } from "./config.js";
 import { createElement, externalLinkAttributes } from "./utils/dom.js";
 
 let initialized = false;
-const WIDGET_TIMEOUT_MS = 4000;
-
-function rejectAfter(ms, message) {
-  return new Promise((_, reject) => {
-    setTimeout(() => reject(new Error(message)), ms);
-  });
-}
 
 async function fetchXAccounts() {
   try {
@@ -22,26 +15,19 @@ async function fetchXAccounts() {
   }
 }
 
-async function renderFallback(container, timelineUrl, message) {
+async function renderImageFallback(container) {
   const accounts = await fetchXAccounts();
-  container.replaceChildren();
   const fallback = createElement("div", { className: "x-unavailable" });
   fallback.append(
-    createElement("h2", { text: "Xの公式タイムラインを表示できません" }),
-    createElement("p", { text: message })
+    createElement("h2", { text: "公開Xリスト" }),
+    createElement("p", { text: "画像を読み込めませんでした。公開リストまたは各公式アカウントから最新情報をご確認ください。" }),
+    createElement("a", {
+      className: "button button--primary",
+      text: "公開Xリストを開く ↗",
+      attrs: { href: config.x.listUrl, ...externalLinkAttributes() }
+    })
   );
-  const actions = createElement("div", { className: "x-unavailable__actions" });
-  actions.append(
-    createElement("a", { className: "button button--primary", text: "公開Xリストを開く ↗", attrs: { href: timelineUrl, ...externalLinkAttributes() } }),
-    createElement("button", { className: "button button--secondary", text: "表示を再試行", attrs: { type: "button" } })
-  );
-  actions.lastElementChild.addEventListener("click", () => {
-    initialized = false;
-    initX();
-  });
-  fallback.append(actions);
   if (accounts.length) {
-    fallback.append(createElement("h3", { text: "リスト登録アカウント" }));
     const accountGrid = createElement("div", { className: "x-account-grid" });
     accounts.forEach((account) => {
       accountGrid.append(createElement("a", {
@@ -52,81 +38,44 @@ async function renderFallback(container, timelineUrl, message) {
     });
     fallback.append(accountGrid);
   }
-  container.append(fallback);
+  container.replaceChildren(fallback);
 }
 
-function loadWidgetScript() {
-  return new Promise((resolve, reject) => {
-    if (window.twttr?.widgets) return resolve(window.twttr);
-    const existing = document.querySelector('script[src="https://platform.twitter.com/widgets.js"]');
-    if (existing) {
-      existing.addEventListener("load", () => resolve(window.twttr), { once: true });
-      existing.addEventListener("error", reject, { once: true });
-      return;
-    }
-    const script = document.createElement("script");
-    script.src = "https://platform.twitter.com/widgets.js";
-    script.async = true;
-    script.charset = "utf-8";
-    script.addEventListener("load", () => resolve(window.twttr), { once: true });
-    script.addEventListener("error", reject, { once: true });
-    document.head.append(script);
-  });
-}
-
-export async function initX() {
+export function initX() {
   if (initialized) return;
   initialized = true;
   const container = document.querySelector("#x-feed");
-  const timelineUrl = config.x.listUrl || config.x.fallbackProfileUrl;
-  const isFallback = !config.x.listUrl;
-
-  container.replaceChildren();
-  if (isFallback) {
-    container.append(createElement("p", {
-      className: "x-fallback-note",
-      text: "公開XリストURLが未設定のため、代表アカウントを表示しています。"
-    }));
-  }
-  const anchor = createElement("a", {
-    className: "twitter-timeline",
-    text: "Xで最新情報を見る",
+  const card = createElement("article", { className: "x-snapshot-card" });
+  const link = createElement("a", {
+    className: "x-snapshot-card__link",
     attrs: {
-      href: timelineUrl,
-      "data-height": String(config.x.height),
-      "data-chrome": "noheader nofooter transparent",
-      "data-dnt": "true",
-      "data-lang": "ja",
+      href: config.x.listUrl,
+      "aria-label": "市丸グループ公開Xリストを開く",
       ...externalLinkAttributes()
     }
   });
-  container.append(anchor);
-
-  try {
-    const twttr = await Promise.race([
-      loadWidgetScript(),
-      rejectAfter(WIDGET_TIMEOUT_MS, "X widget script timed out")
-    ]);
-    await Promise.race([
-      Promise.resolve(twttr.widgets.load(container)),
-      rejectAfter(WIDGET_TIMEOUT_MS, "X widget rendering timed out")
-    ]);
-    await new Promise((resolve) => setTimeout(resolve, 2500));
-    const iframe = container.querySelector("iframe");
-    const rendered = iframe && iframe.getBoundingClientRect().height >= 200 && iframe.getBoundingClientRect().width >= 200;
-    if (!rendered) {
-      await renderFallback(
-        container,
-        timelineUrl,
-        "X側の配信制限により、埋め込みタイムラインを読み込めませんでした。公開リストまたは各公式アカウントを直接ご確認ください。"
-      );
+  const visual = createElement("div", { className: "x-snapshot-card__visual" });
+  const image = createElement("img", {
+    attrs: {
+      src: config.x.snapshotImage,
+      alt: "市丸グループ公開XリストのHOME画面。12公式アカウントと最新投稿を表示",
+      decoding: "async"
     }
-  } catch (error) {
-    console.error("X widget error", error);
-    await renderFallback(
-      container,
-      timelineUrl,
-      "現在、Xの公式ウィジェットを読み込めません。公開リストまたは各公式アカウントを直接ご確認ください。"
-    );
-  }
+  });
+  image.addEventListener("error", () => renderImageFallback(container), { once: true });
+  visual.append(image, createElement("span", { className: "x-snapshot-card__badge", text: "公開Xリスト" }));
+
+  const body = createElement("div", { className: "x-snapshot-card__body" });
+  body.append(
+    createElement("p", { className: "eyebrow", text: "ICHIMARU GROUP ON X" }),
+    createElement("h2", { text: "12公式アカウントの最新発信" }),
+    createElement("p", {
+      text: "市丸グループ各社・各事業の公開投稿をまとめたXリストです。画像は撮影時点の内容です。最新投稿はXでご確認ください。"
+    }),
+    createElement("p", { className: "x-snapshot-card__date", text: `${config.x.snapshotUpdatedAt} 撮影` }),
+    createElement("span", { className: "button button--primary", text: "Xリストを見る ↗" })
+  );
+  link.append(visual, body);
+  card.append(link);
+  container.replaceChildren(card);
 }
