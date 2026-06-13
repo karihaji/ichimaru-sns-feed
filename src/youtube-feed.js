@@ -17,7 +17,7 @@ function createCard(video, featured = false) {
     createElement("span", { className: "play-mark", text: "▶", attrs: { "aria-hidden": "true" } })
   );
   const body = createElement("div", { className: "youtube-card__body" });
-  const time = createElement("time", { className: "youtube-card__date", text: formatDate(video.publishedAt), attrs: { datetime: video.publishedAt } });
+  const time = createElement("time", { className: "youtube-card__date", text: `公開日：${formatDate(video.publishedAt)}`, attrs: { datetime: video.publishedAt } });
   body.append(createElement("h2", { className: "youtube-card__title", text: video.title }), time);
   link.append(thumb, body);
   article.append(link);
