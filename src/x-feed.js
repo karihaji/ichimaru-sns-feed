@@ -58,7 +58,7 @@ export function initX() {
   const image = createElement("img", {
     attrs: {
       src: config.x.snapshotImage,
-      alt: "市丸グループ公開XリストのHOME画面。12公式アカウントと最新投稿を表示",
+      alt: "市丸グループの12公式Xアカウントのプロフィール画像一覧",
       decoding: "async"
     }
   });
@@ -70,9 +70,8 @@ export function initX() {
     createElement("p", { className: "eyebrow", text: "ICHIMARU GROUP ON X" }),
     createElement("h2", { text: "12公式アカウントの最新発信" }),
     createElement("p", {
-      text: "市丸グループ各社・各事業の公開投稿をまとめたXリストです。画像は撮影時点の内容です。最新投稿はXでご確認ください。"
+      text: "市丸グループ各社・各事業の公式アカウントをまとめた公開Xリストです。最新投稿はXでご確認ください。"
     }),
-    createElement("p", { className: "x-snapshot-card__date", text: `${config.x.snapshotUpdatedAt} 撮影` }),
     createElement("span", { className: "button button--primary", text: "Xリストを見る ↗" })
   );
   link.append(visual, body);

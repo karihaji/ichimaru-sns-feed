@@ -1,5 +1,4 @@
 import { config } from "./config.js";
-import { formatDate } from "./utils/date.js";
 import { createElement, externalLinkAttributes, renderEmptyState } from "./utils/dom.js";
 import { validInstagramPost } from "./utils/validation.js";
 
@@ -30,7 +29,7 @@ function createCard(post) {
   if (isProfile) {
     meta.append(createElement("span", { text: "公式アカウント" }), createElement("span", { text: "プロフィールを見る ↗" }));
   } else {
-    meta.append(createElement("time", { text: formatDate(post.publishedAt), attrs: { datetime: post.publishedAt } }), createElement("span", { text: "投稿を見る ↗" }));
+    meta.append(createElement("span", { text: "Instagramの投稿" }), createElement("span", { text: "投稿を見る ↗" }));
   }
   body.append(accountLine, createElement("p", { className: "caption", text: post.caption }), meta);
   link.append(imageWrap, body);

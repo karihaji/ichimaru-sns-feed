@@ -1,5 +1,4 @@
 import { config } from "./config.js";
-import { formatDate } from "./utils/date.js";
 import { createElement, externalLinkAttributes, renderEmptyState } from "./utils/dom.js";
 import { validYouTubeVideo } from "./utils/validation.js";
 
@@ -17,8 +16,7 @@ function createCard(video, featured = false) {
     createElement("span", { className: "play-mark", text: "▶", attrs: { "aria-hidden": "true" } })
   );
   const body = createElement("div", { className: "youtube-card__body" });
-  const time = createElement("time", { className: "youtube-card__date", text: formatDate(video.publishedAt), attrs: { datetime: video.publishedAt } });
-  body.append(createElement("h2", { className: "youtube-card__title", text: video.title }), time);
+  body.append(createElement("h2", { className: "youtube-card__title", text: video.title }));
   link.append(thumb, body);
   article.append(link);
   return article;
