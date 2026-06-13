@@ -132,6 +132,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid rgba(1, 139, 238, .38
 .youtube-card__body { align-self: center; padding: 14px; min-width: 0; }
 .youtube-card__title { display: -webkit-box; margin: 0 0 8px; overflow: hidden; color: var(--navy); font-size: 15px; line-height: 1.5; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .youtube-card--featured .youtube-card__title { font-size: 18px; }
+.youtube-card__date { color: var(--gray); font-size: 12px; }
 
 .shell-footer { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 16px; padding: 7px 16px; border-top: 1px solid var(--border); background: #f8fafc; }
 .updated-at { margin: 0; color: var(--gray); font-size: 12px; }
