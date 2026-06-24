@@ -82,7 +82,9 @@ npm run update:youtube
 npm run validate
 ```
 
-公開Atomフィードから最大8件を取得し、正常なデータが1件以上ある場合だけ `public/data/youtube.json` を置換します。YouTube側の一時的な404・429・5xx等はリトライし、それでも取得できない場合は既存JSONが正常なら保持してワークフローを成功扱いにします。
+公開Atomフィードから最大12件を取得し、通常動画とShortsを分類したうえで `public/data/youtube.json` を置換します。YouTube側の一時的な404・429・5xx等はリトライし、それでも取得できない場合は既存JSONが正常なら保持してワークフローを成功扱いにします。
+
+画面では通常動画とShortsを別セクションに分けて表示します。表示件数は `src/config.js` の `youtube.regularItems` と `youtube.shortsItems` で調整できます。
 
 GitHub Actionsの `Update YouTube feed` は6時間ごとの17分に実行されます。JSONに差分がある場合だけコミットし、そのpushによってPagesが再公開されます。更新ワークフロー自身はpushをトリガーにしないため、コミットの無限ループは発生しません。
 

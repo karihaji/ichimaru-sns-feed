@@ -22,6 +22,8 @@ export const config = {
     channelId: "UCYrQylMl9TnKybPJ_ERVB8A",
     channelUrl: "https://www.youtube.com/channel/UCYrQylMl9TnKybPJ_ERVB8A",
     feedUrl: "https://www.youtube.com/feeds/videos.xml?channel_id=UCYrQylMl9TnKybPJ_ERVB8A",
-    maxItems: 8
+    maxItems: 12,
+    regularItems: 3,
+    shortsItems: 3
   }
 };

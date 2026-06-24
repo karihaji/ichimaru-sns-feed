@@ -36,9 +36,14 @@ function parseFeed(xml) {
       title,
       url: `https://www.youtube.com/watch?v=${videoId}`,
       publishedAt,
-      thumbnail: decodeXml(thumbnail)
+      thumbnail: decodeXml(thumbnail),
+      format: isShortsTitle(title) ? "short" : "video"
     };
   });
+}
+
+function isShortsTitle(title) {
+  return /(^|[\s　])#(?:shorts?|shotrs|ショート)(?=$|[\s　])/i.test(title);
 }
 
 function sleep(ms) {

@@ -42,6 +42,7 @@ export function validYouTubeVideo(video) {
     typeof video.title === "string" &&
     isSafePublicUrl(video.url, ["youtube.com", "youtu.be"]) &&
     !Number.isNaN(new Date(video.publishedAt).getTime()) &&
-    isSafePublicUrl(video.thumbnail, ["ytimg.com"])
+    isSafePublicUrl(video.thumbnail, ["ytimg.com"]) &&
+    (!video.format || ["video", "short"].includes(video.format))
   );
 }
